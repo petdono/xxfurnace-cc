@@ -1,5 +1,5 @@
 # XXFurnace
-XXF is a quick-smelt program. Its relatively simple; place your wired modem connected to your turtle, connect your furnace and storage, put the fuel and resources (We use Emendatus Enigmatica's chunks, feel free to change it to iron ore or whatever else) into that chest, connect a monitor, and click a button to start auto-smelting all of that ore.
+XXF is a quick-smelt program. Its relatively simple; place your wired modem connected to your turtle, connect your furnace and storage, put the fuel and resources (We use [Emendatus Enigmatica](https://www.curseforge.com/minecraft/mc-mods/emendatus-enigmatica)'s chunks, feel free to change it to iron ore or whatever else) into that chest, connect a monitor, and click a button to start auto-smelting all of that ore.
 
 TL;DR: Smelt things by installing, connecting storage (to a turtle, through wired modems), connecting monitor, and running the program.
 
