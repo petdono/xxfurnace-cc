@@ -6,7 +6,7 @@ TL;DR: Smelt things by installing, connecting storage (to a turtle, through wire
 install: `COMING SOON`
 
 ## Requirements
-* We use (Basalt)[https://pinestore.cc/projects/15/basalt] for the UI. If you already use it, then use the "NO BASALT" installer. Otherwise, use the regular installer.
+* We use [Basalt](https://pinestore.cc/projects/15/basalt) for the UI. If you already use it, then use the "NO BASALT" installer. Otherwise, use the regular installer.
 * Please, use CC: Tweaked. This program was developed in CC: T, so you will get **NO SUPPORT** if you use the regular CC.
 * We don't support CC: Restitched, but it may work. It's untested as of now.
 
