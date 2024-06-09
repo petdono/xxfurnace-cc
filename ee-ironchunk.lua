@@ -1,75 +1,88 @@
--- Load Basalt
-local basalt = require("basalt")
-
--- Create the main frame
-local mainFrame = basalt.createFrame()
-
--- Function to scale and position buttons
-local function scaleUI()
-    local width, height = term.getSize()
-    local paddingLeft = 2  -- Define left padding
-    local paddingTop = 3   -- Define top padding for the first button
-    local buttonHeight = math.floor((height - paddingTop) / 4) - 1  -- Define button height
-    local buttonWidth = width - paddingLeft * 2
-    
-    -- Add a label at the top center
-    local label = mainFrame:addLabel()
-        :setText("My Scalable UI")
-        :setPosition(math.floor(width / 2) - 6, 1)
-    
-    local button1 = mainFrame:addButton()
-        :setText("Smelt Iron")
-        :setSize(buttonWidth, buttonHeight)
-        :setPosition(paddingLeft, paddingTop)
-        :setBackground(colors.red) -- Set button color
-
-    local button2 = mainFrame:addButton()
-        :setText("Smelt Gold")
-        :setSize(buttonWidth, buttonHeight)
-        :setPosition(paddingLeft, paddingTop + buttonHeight + 1)
-        :setBackground(colors.yellow) -- Set button color
-
-    local button3 = mainFrame:addButton()
-        :setText("Smelt Copper")
-        :setSize(buttonWidth, buttonHeight)
-        :setPosition(paddingLeft, paddingTop + (buttonHeight + 1) * 2)
-        :setBackground(colors.orange) -- Set button color
-
-    local button4 = mainFrame:addButton()
-        :setText("Make Charcoal")
-        :setSize(buttonWidth, buttonHeight)
-        :setPosition(paddingLeft, paddingTop + (buttonHeight + 1) * 3)
-        :setBackground(colors.green) -- Set button color
-
-    -- Add event handlers for the buttons
-    button1:onClick(function()
-        shell.run("ee-ironchunk.lua")
-    end)
-
-    button2:onClick(function()
-        shell.run("ee-goldchunk.lua")
-    end)
-
-    button3:onClick(function()
-        shell.run("ee-copperchunk.lua")
-    end)
-
-    button4:onClick(function()
-        shell.run("charcoal.lua")
-    end)
+-- Function to list all connected peripherals
+local function listAllPeripherals()
+    local peripherals = {}
+    for _, name in pairs(peripheral.getNames()) do
+        peripherals[name] = peripheral.getType(name)
+    end
+    return peripherals
 end
 
--- Initial UI setup
-scaleUI()
-
--- Function to handle resizing
-local function onResize()
-    mainFrame:clear()
-    scaleUI()
+-- Function to transfer items from source to destination
+local function transferItems(source, sourceSlot, destination, destSlot, amount)
+    if peripheral.call(source, "getItemDetail", sourceSlot) then
+        peripheral.call(source, "pushItems", destination, sourceSlot, amount, destSlot)
+    end
 end
 
--- Set up event listener for resizing
-mainFrame:onEvent("term_resize", onResize)
+-- Function to collect specific items from chests
+local function collectItems(chests, itemNamePatterns)
+    local itemSlots = {}
+    for chest, _ in pairs(chests) do
+        local inventory = peripheral.call(chest, "list")
+        for slot, item in pairs(inventory) do
+            for _, pattern in ipairs(itemNamePatterns) do
+                if string.find(item.name, pattern) then
+                    table.insert(itemSlots, {chest = chest, slot = slot, count = item.count, name = item.name})
+                end
+            end
+        end
+    end
+    return itemSlots
+end
 
--- Show the main frame
-basalt.autoUpdate()
+-- Function to distribute items to furnaces in a round-robin manner
+local function distributeItemsRoundRobin(itemSlots, furnaces, furnaceSlot)
+    local furnacesList = {}
+    for furnace, _ in pairs(furnaces) do
+        table.insert(furnacesList, furnace)
+    end
+
+    local furnaceIndex = 1
+    while #itemSlots > 0 do
+        local currentFurnace = furnacesList[furnaceIndex]
+        local itemsToTransfer = 1
+
+        local itemSlot = table.remove(itemSlots, 1)
+        transferItems(itemSlot.chest, itemSlot.slot, currentFurnace, furnaceSlot, itemsToTransfer)
+        itemSlot.count = itemSlot.count - itemsToTransfer
+
+        if itemSlot.count > 0 then
+            table.insert(itemSlots, itemSlot)
+        end
+
+        furnaceIndex = furnaceIndex + 1
+        if furnaceIndex > #furnacesList then
+            furnaceIndex = 1
+        end
+    end
+end
+
+-- Get all peripherals on the network
+local peripherals = listAllPeripherals()
+
+-- Separate chests and furnaces
+local chests = {}
+local furnaces = {}
+for name, type in pairs(peripherals) do
+    if string.find(name, "chest") then
+        chests[name] = type
+    elseif string.find(name, "furnace") then
+        furnaces[name] = type
+    end
+end
+
+-- Collect coal, charcoal, and iron chunks from chests
+local coalSlots = collectItems(chests, {"minecraft:coal"})
+local charcoalSlots = collectItems(chests, {"minecraft:charcoal"})
+local chunkSlots = collectItems(chests, {"emendatusenigmatica:iron_chunk"})
+
+-- Distribute coal to furnaces (fuel slot) in a round-robin manner
+distributeItemsRoundRobin(coalSlots, furnaces, 2)
+
+-- Distribute charcoal to furnaces (fuel slot) in a round-robin manner
+distributeItemsRoundRobin(charcoalSlots, furnaces, 2)
+
+-- Distribute iron chunks to furnaces (top slot) in a round-robin manner
+distributeItemsRoundRobin(chunkSlots, furnaces, 1)
+
+print("Distribution complete.")
