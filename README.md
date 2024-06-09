@@ -5,7 +5,7 @@ TL;DR: Smelt things by installing, connecting storage (to a turtle, through wire
 
 install: `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer.lua)
 
-install (NO BASALT): `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua)
+no basalt: `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua)
 
 ## Requirements
 * We use [Basalt](https://pinestore.cc/projects/15/basalt) for the UI. If you already use it, then use the "NO BASALT" installer. Otherwise, use the regular installer.
