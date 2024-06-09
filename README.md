@@ -7,6 +7,8 @@ install: `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer.
 
 no basalt: `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua)
 
+This will be uploaded to pinestore soon to help support my app and theirs.
+
 ## Requirements
 * We use [Basalt](https://pinestore.cc/projects/15/basalt) for the UI. If you already use it, then use the "NO BASALT" installer. Otherwise, use the regular installer.
 * Please, use CC: Tweaked. This program was developed in CC: T, so you will get **NO SUPPORT** if you use the regular CC.
