@@ -72,13 +72,17 @@ for name, type in pairs(peripherals) do
 end
 
 -- Collect coal, charcoal, and iron chunks from chests
-local fuelSlots = collectItems(chests, {"minecraft:coal", "minecraft:charcoal"})
+local coalSlots = collectItems(chests, {"minecraft:coal"})
+local charcoalSlots = collectItems(chests, {"minecraft:charcoal"})
 local chunkSlots = collectItems(chests, {"emendatusenigmatica:iron_chunk"})
 
--- Distribute fuel (coal and charcoal) to furnaces (fuel slot) in a round-robin manner
-distributeItemsRoundRobin(fuelSlots, furnaces, 2)
+-- Distribute coal to furnaces (fuel slot) in a round-robin manner
+distributeItemsRoundRobin(coalSlots, furnaces, 2)
 
--- Distribute iron chunks to furnaces (top slot)
+-- Distribute charcoal to furnaces (fuel slot) in a round-robin manner
+distributeItemsRoundRobin(charcoalSlots, furnaces, 2)
+
+-- Distribute iron chunks to furnaces (top slot) in a round-robin manner
 distributeItemsRoundRobin(chunkSlots, furnaces, 1)
 
 print("Distribution complete.")
