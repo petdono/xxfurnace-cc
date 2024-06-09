@@ -9,34 +9,37 @@ local function scaleUI()
     local width, height = term.getSize()
     local paddingLeft = 2  -- Define left padding
     local paddingTop = 3   -- Define top padding for the first button
-    local buttonHeight = 3  -- Define button height
-
+    local buttonHeight = math.floor((height - paddingTop) / 4) - 1  -- Define button height
     local buttonWidth = width - paddingLeft * 2
     
     -- Add a label at the top center
     local label = mainFrame:addLabel()
-        :setText("My Scalable UI")
+        :setText("XXFurnace SMON")
         :setPosition(math.floor(width / 2) - 6, 1)
     
     local button1 = mainFrame:addButton()
         :setText("Smelt Iron")
         :setSize(buttonWidth, buttonHeight)
         :setPosition(paddingLeft, paddingTop)
+        :setBackground(colors.red) -- Set button color
 
     local button2 = mainFrame:addButton()
         :setText("Smelt Gold")
         :setSize(buttonWidth, buttonHeight)
         :setPosition(paddingLeft, paddingTop + buttonHeight + 1)
+        :setBackground(colors.yellow) -- Set button color
 
     local button3 = mainFrame:addButton()
         :setText("Smelt Copper")
         :setSize(buttonWidth, buttonHeight)
         :setPosition(paddingLeft, paddingTop + (buttonHeight + 1) * 2)
+        :setBackground(colors.orange) -- Set button color
 
     local button4 = mainFrame:addButton()
-        :setText("Smelt Silver")
+        :setText("Make Charcoal")
         :setSize(buttonWidth, buttonHeight)
         :setPosition(paddingLeft, paddingTop + (buttonHeight + 1) * 3)
+        :setBackground(colors.green) -- Set button color
 
     -- Add event handlers for the buttons
     button1:onClick(function()
@@ -52,7 +55,7 @@ local function scaleUI()
     end)
 
     button4:onClick(function()
-        shell.run("ee-silverchunk.lua")
+        shell.run("ee-charcoal.lua")
     end)
 end
 
