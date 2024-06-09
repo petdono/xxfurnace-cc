@@ -15,13 +15,15 @@ local function transferItems(source, sourceSlot, destination, destSlot, amount)
 end
 
 -- Function to collect specific items from chests
-local function collectItems(chests, itemNamePattern)
+local function collectItems(chests, itemNamePatterns)
     local itemSlots = {}
     for chest, _ in pairs(chests) do
         local inventory = peripheral.call(chest, "list")
         for slot, item in pairs(inventory) do
-            if string.find(item.name, itemNamePattern) then
-                table.insert(itemSlots, {chest = chest, slot = slot, count = item.count, name = item.name})
+            for _, pattern in ipairs(itemNamePatterns) do
+                if string.find(item.name, pattern) then
+                    table.insert(itemSlots, {chest = chest, slot = slot, count = item.count, name = item.name})
+                end
             end
         end
     end
@@ -69,14 +71,14 @@ for name, type in pairs(peripherals) do
     end
 end
 
--- Collect coal and engmatica chunks from chests
-local coalSlots = collectItems(chests, "minecraft:coal")
-local chunkSlots = collectItems(chests, "emendatusenigmatica:iron_chunk")
+-- Collect coal, charcoal, and iron chunks from chests
+local fuelSlots = collectItems(chests, {"minecraft:coal", "minecraft:charcoal"})
+local chunkSlots = collectItems(chests, {"emendatusenigmatica:iron_chunk"})
 
--- Distribute coal to furnaces (fuel slot) in a round-robin manner
-distributeItemsRoundRobin(coalSlots, furnaces, 2)
+-- Distribute fuel (coal and charcoal) to furnaces (fuel slot) in a round-robin manner
+distributeItemsRoundRobin(fuelSlots, furnaces, 2)
 
--- Distribute engmatica chunks to furnaces (top slot)
+-- Distribute iron chunks to furnaces (top slot)
 distributeItemsRoundRobin(chunkSlots, furnaces, 1)
 
 print("Distribution complete.")
