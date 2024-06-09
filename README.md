@@ -4,6 +4,7 @@ XXF is a quick-smelt program. Its relatively simple; place your wired modem conn
 TL;DR: Smelt things by installing, connecting storage (to a turtle, through wired modems), connecting monitor, and running the program.
 
 install: `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer.lua)
+
 install (NO BASALT): `https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua` [R-Click > Copy Link](https://raw.githubusercontent.com/petdono/xxfurnace-cc/main/installer-nobasalt.lua)
 
 ## Requirements
